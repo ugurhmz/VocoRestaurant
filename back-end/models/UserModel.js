@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import AddressModel from "./AddressModel";
 
 const { Schema } = mongoose;
 
@@ -14,7 +15,7 @@ const UserSchema = new Schema(
     activationToken: { type: String },
     isVerified: { type: Boolean, default: false },
     profile_img: { type: String, default: "default.png" },
-    addresses: [{ type: String }],
+    addresses: [AddressModel.schema],
     resetPasswordToken: { type: String },
     resetPasswordExpiry: { type: Date },
   },
