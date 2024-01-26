@@ -131,7 +131,10 @@ export const userLoginController = async (req, res) => {
     }
 
     const findUser = await UserModel.findOne({
-      email: req.body.email
+      $or: [
+        { email: req.body.email },
+        { username: req.body.username },
+      ]
     })
 
     if (!findUser) {

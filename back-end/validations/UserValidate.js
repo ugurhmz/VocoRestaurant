@@ -20,6 +20,7 @@ export const registerValidation = Joi.object({
 
 // Login Validation
 export const loginValidation = Joi.object({
-  email: Joi.string().email().min(8).required(),
+  email: Joi.string().email().min(8),
+  username: Joi.string().min(3).max(75),
   password: Joi.string().min(6).required(),
-})
+}).or('email', 'username')
