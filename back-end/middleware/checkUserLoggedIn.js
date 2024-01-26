@@ -1,6 +1,6 @@
-import httpStatus from 'http-status';
-import jwt from 'jsonwebtoken';
-import UserModel from '../models/UserModel.js'; 
+import httpStatus from 'http-status'
+import jwt from 'jsonwebtoken'
+import UserModel from '../models/UserModel.js'
 
 export const checkAuthenticated = async (req, res, next) => {
   const token = req.headers.authorization && req.headers.authorization.split(' ')[1]
@@ -12,7 +12,7 @@ export const checkAuthenticated = async (req, res, next) => {
       req.userId = decoded.id
       req.user = await UserModel.findById(decoded.id).select('-password')
       
-      next();
+      next()
     } catch (err) {
       console.error(err)
       res.status(httpStatus.UNAUTHORIZED).json({ error: "Not authorized, token failed!!" })

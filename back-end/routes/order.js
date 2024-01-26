@@ -4,7 +4,5 @@ import {checkAuthenticated} from '../middleware/checkUserLoggedIn.js'
 
 const router = express.Router()
 
-
 router.post('/create-order', checkAuthenticated, createOrderController)
-
 export default router

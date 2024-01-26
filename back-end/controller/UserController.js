@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken'
 import CryptoJs from 'crypto-js'
 import nodemailer from 'nodemailer'
 import AddressModel from '../models/AddressModel.js'
-import { loginValidation } from '../validations/UserValidate.js';
+import { loginValidation } from '../validations/UserValidate.js'
 
 // REGISTER with Activation LINK
 export const registerUserController = async (req, res) => {
@@ -94,7 +94,6 @@ export const userActivationController = async (req, res) => {
   }
 }
 
-
 const sendActivationEmail = async (email, actvToken) => {
   const emailInfo = {
     from: process.env.EMAIL_FROM,
@@ -119,7 +118,6 @@ const sendActivationEmail = async (email, actvToken) => {
     throw error
   }
 }
-
 
 // LOGIN
 export const userLoginController = async (req, res) => {
@@ -149,8 +147,8 @@ export const userLoginController = async (req, res) => {
       })
     }
 
-    const decryptUserPassword = CryptoJs.AES.decrypt(findUser.password, process.env.PAS_SECURITY);
-    const userDbPassword = decryptUserPassword.toString(CryptoJs.enc.Utf8);
+    const decryptUserPassword = CryptoJs.AES.decrypt(findUser.password, process.env.PAS_SECURITY)
+    const userDbPassword = decryptUserPassword.toString(CryptoJs.enc.Utf8)
 
     if (userDbPassword !== req.body.password) {
       return res.status(httpStatus.NOT_FOUND).json({
@@ -173,7 +171,7 @@ export const userLoginController = async (req, res) => {
     })
 
   } catch (err) {
-    console.error("userLoginController error:", err);
+    console.error("userLoginController error:", err)
     res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
       error: "Internal Server Error"
     })
