@@ -7,10 +7,10 @@ const RestaurantSchema = new Schema(
       name: { type: String, required: true },
       description: { type: String, required: true },
       logo: { type: String, default: "restaurant_default.png" },
-      address: { type: mongoose.Schema.Types.ObjectId, ref: 'AddressModel', required: true },
-      menus: [{ type: mongoose.Schema.Types.ObjectId, ref: 'MenuModel' }],
+      address: { type: mongoose.Schema.Types.ObjectId, ref: 'Address', required: true },
+      menus: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Menu' }],
       types: [{ type: String }],
-      branches: [{ type: mongoose.Schema.Types.ObjectId, ref: 'AddressModel' }],
+      branches: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Address' }],
     },
     { timestamps: true }
   )
