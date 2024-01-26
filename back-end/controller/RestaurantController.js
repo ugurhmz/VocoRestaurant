@@ -1,53 +1,39 @@
-import RestaurantModel from '../models/RestaurantModel.js';
-import AddressModel from '../models/AddressModel.js';
-import MenuModel from '../models/MenuModel.js';
-import httpStatus from 'http-status';
+import httpStatus from 'http-status'
+import RestaurantModel from '../models/RestaurantModel.js'
 
+// Create Restaurant Controller
 export const createRestaurantController = async (req, res) => {
   try {
     const {
       name,
       description,
-      logo,
-      address = [],
-      locations,
+      logo = 'restaurant_default.png',
+      address,
       menus = [],
-      types,
+      types = [],
       branches = [],
-    } = req.body;
+    } = req.body
 
-    // Adresler
-    const addressDocs = await AddressModel.find({ _id: { $in: address } });
+    if (!name || !description || !address) {
+      return res.status(httpStatus[400]).json({ error: 'Name, description, and address are required fields.' })
+    }
 
-    // Menüler
-    const menuDocs = await MenuModel.find({ _id: { $in: menus } });
-
-    // Şubeler
-    const branchDocs = await AddressModel.find({ _id: { $in: branches } });
-
-    // Yeni restoranı oluştur
     const newRestaurant = new RestaurantModel({
       name,
       description,
       logo,
-      address: addressDocs,
-      locations,
-      menus: menuDocs,
+      address,
+      menus,
       types,
-      branches: branchDocs,
-    });
+      branches,
+    })
 
-    // Veritabanına kaydet
-    const savedRestaurant = await newRestaurant.save();
+    
+    const savedRestaurant = await newRestaurant.save()
 
-    return res.status(httpStatus.CREATED).json({
-      message: 'Restaurant created successfully',
-      restaurant: savedRestaurant,
-    });
+    res.status(httpStatus.CREATED).json(savedRestaurant)
   } catch (error) {
-    console.error('createRestaurantController error:', error);
-    return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-      error: 'Internal Server Error',
-    });
+    console.error('Error in createRestaurantController:', error.message)
+    res.status(httpStatus[500]).json({ error: 'Internal Server Error' })
   }
-};
+}

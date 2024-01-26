@@ -1,5 +1,5 @@
-import MenuModel from '../models/MenuModel.js';
-import httpStatus from 'http-status';
+import MenuModel from '../models/MenuModel.js'
+import httpStatus from 'http-status'
 
 export const createMenuController = async (req, res) => {
   try {

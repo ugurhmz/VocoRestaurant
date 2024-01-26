@@ -24,7 +24,7 @@ export const createAddressController = async (req, res) => {
     return res.status(httpStatus.CREATED).json({
       message: 'Address created successfully',
       address: savedAddress,
-    });
+    })
   } catch (error) {
     console.error('createAddressController error:', error)
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
