@@ -1,7 +1,8 @@
-import express from 'express';
-const router = express.Router();
+import express from 'express'
+import UserRouter from './routes/user.js'
+const router = express.Router()
 
-// TODO create routes..
 
+router.use("/user", UserRouter)
 
-export default router;
+export default router

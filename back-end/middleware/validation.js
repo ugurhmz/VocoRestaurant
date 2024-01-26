@@ -1,4 +1,4 @@
-import httpStatus from "http-status";
+import httpStatus from "http-status"
 
 const validate = (schema) => (req, res, next) => {
 
@@ -14,6 +14,6 @@ const validate = (schema) => (req, res, next) => {
 
   Object.assign(req, value)
   return next()
-};
+}
 
 export default validate

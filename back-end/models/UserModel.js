@@ -16,6 +16,10 @@ const UserSchema = new Schema(
     addresses: [AddressModel.schema],
     orders: [OrderModel.schema],
     reviews: [ReviewModel.schema],
+    activationToken: { type: String },
+    isVerified: { type: Boolean, default: false },
+    resetPasswordToken: { type: String },
+    resetPasswordExpiry: { type: Date },
   },
   { timestamps: true }
 )
