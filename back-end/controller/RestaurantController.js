@@ -1,7 +1,9 @@
-import RestaurantModel from '../models/RestaurantModel.js'
-import httpStatus from 'http-status'
+import mongoose from 'mongoose';
+import RestaurantModel from '../models/RestaurantModel.js';
+import AddressModel from '../models/AddressModel.js';
+import MenuModel from '../models/MenuModel.js';
+import httpStatus from 'http-status';
 
-// CREATE Restaurant
 export const createRestaurantController = async (req, res) => {
   try {
     const {
@@ -13,29 +15,40 @@ export const createRestaurantController = async (req, res) => {
       menus = [],
       types,
       branches = [],
-    } = req.body
+    } = req.body;
 
+    // Adresler
+    const addressDocs = await AddressModel.find({ _id: { $in: address } });
+
+    // Menüler
+    const menuDocs = await MenuModel.find({ _id: { $in: menus } });
+
+    // Şubeler
+    const branchDocs = await AddressModel.find({ _id: { $in: branches } });
+
+    // Yeni restoranı oluştur
     const newRestaurant = new RestaurantModel({
       name,
       description,
       logo,
-      address,
+      address: addressDocs,
       locations,
-      menus,
+      menus: menuDocs,
       types,
-      branches,
-    })
+      branches: branchDocs,
+    });
 
-    const savedRestaurant = await newRestaurant.save()
+    // Veritabanına kaydet
+    const savedRestaurant = await newRestaurant.save();
 
     return res.status(httpStatus.CREATED).json({
       message: 'Restaurant created successfully',
       restaurant: savedRestaurant,
-    })
+    });
   } catch (error) {
-    console.error('createRestaurantController error:', error)
+    console.error('createRestaurantController error:', error);
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
       error: 'Internal Server Error',
-    })
+    });
   }
-}
+};

@@ -12,7 +12,7 @@ const RestaurantSchema = new Schema(
         address: [AddressModel.schema],
         locations: [ {type: String} ],
         menus: [MenuModel.schema],
-        types: [{type: String}], //Turkish, fast food bla bla
+        types: [{type: String}], // Turkish, fast food bla bla
         branches: [AddressModel.schema],
     },
     { timestamps: true }
