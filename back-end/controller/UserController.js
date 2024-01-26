@@ -14,6 +14,7 @@ export const registerUserController = async (req, res) => {
     age,
     gender,
     password,
+    profile_img = "default.png",
     addresses = [],
   } = req.body
 
@@ -43,7 +44,7 @@ export const registerUserController = async (req, res) => {
       password: encryptedPassword,
       activationToken: actvToken,
       isVerified: false,
-      profile_img: "default.png",
+      profile_img: profile_img,
       addresses: addresses.map(address => new AddressModel(address)),
       resetPasswordToken: null,
       resetPasswordExpiry: null,
