@@ -1,26 +1,24 @@
-import mongoose from "mongoose";
-import AddressModel from "./AddressModel";
+import mongoose from "mongoose"
+import AddressModel from "./AddressModel.js"
+import OrderModel from "./OrderModel.js"
+import ReviewModel from "./ReviewModel.js"
 
-const { Schema } = mongoose;
+const { Schema } = mongoose
 
 const UserSchema = new Schema(
   {
-    email: { type: String,required: true,unique: true, min: 8},
-    username: { type: String, required: true, min: 3, max: 75 },
-    age: { type: Number, required: true, min: 4 },
-    gender: { type: String },
-    password: { type: String, required: true, min: 6 },
-    firstName: { type: String, required: true, min: 2, max: 100 },
-    lastName: { type: String, required: true, min: 2, max: 100 },
-    activationToken: { type: String },
-    isVerified: { type: Boolean, default: false },
-    profile_img: { type: String, default: "default.png" },
+    username: { type: String, required: true, unique: true, minlength: 3, maxlength: 75 },
+    password: { type: String, required: true, minlength: 6 },
+    email: { type: String, required: true, unique: true },
+    age: { type: Number, required: true, min: 18 },
+    gender: { type: String, enum: ["Male", "Female", "Other"] },
+    profile_img: { type: String },
     addresses: [AddressModel.schema],
-    resetPasswordToken: { type: String },
-    resetPasswordExpiry: { type: Date },
+    orders: [OrderModel.schema],
+    reviews: [ReviewModel.schema],
   },
   { timestamps: true }
-);
+)
 
-const User = mongoose.model("User", UserSchema);
-export default User;
+const UserModel = mongoose.model("User", UserSchema)
+export default UserModel
