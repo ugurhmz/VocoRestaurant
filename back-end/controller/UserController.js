@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken'
 import CryptoJs from 'crypto-js'
 import nodemailer from 'nodemailer'
 import AddressModel from '../models/AddressModel.js'
+import { loginValidation } from '../validations/UserValidate.js';
 
 // REGISTER with Activation LINK
 export const registerUserController = async (req, res) => {
@@ -115,5 +116,62 @@ const sendActivationEmail = async (email, actvToken) => {
     await transporter.sendMail(emailInfo)
   } catch (error) {
     throw error
+  }
+}
+
+
+// LOGIN
+export const userLoginController = async (req, res) => {
+  try {
+
+    const { error } = loginValidation.validate(req.body)
+    if (error) {
+      return res.status(httpStatus.BAD_REQUEST).json({ error: error.details[0].message })
+    }
+
+    const findUser = await UserModel.findOne({
+      email: req.body.email
+    })
+
+    if (!findUser) {
+      return res.status(httpStatus.NOT_FOUND).json({
+        message: `No user found with this email: ${req.body.email}`
+      })
+    }
+
+    if (!findUser.isVerified) {
+      return res.status(httpStatus.NON_AUTHORITATIVE_INFORMATION).json({
+        error: "Not Activated !!"
+      })
+    }
+
+    const decryptUserPassword = CryptoJs.AES.decrypt(findUser.password, process.env.PAS_SECURITY);
+    const userDbPassword = decryptUserPassword.toString(CryptoJs.enc.Utf8);
+
+    if (userDbPassword !== req.body.password) {
+      return res.status(httpStatus.NOT_FOUND).json({
+        error: "Invalid password !",
+      })
+    }
+
+    const loginToken = jwt.sign(
+      {
+        id: findUser._id
+      },
+      process.env.JWT_SECRET_KEY,
+      { expiresIn: "7d" }
+    )
+
+    const { password, ...userWithoutPassword } = findUser._doc
+    res.status(httpStatus.OK).json({
+      ...userWithoutPassword,
+      loginToken
+    })
+
+  } catch (err) {
+    console.error("userLoginController error:", err);
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+      error: "Internal Server Error"
+    })
   }
 }
