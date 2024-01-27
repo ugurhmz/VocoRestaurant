@@ -1,5 +1,118 @@
 # VocoRestaurant
 
+## API Documents:
+# VocoRestaurant API Documentation
+
+## Base URL
+- http://localhost:3500/vocov1/api/
+
+## User
+
+#### Register
+- **Endpoint:** `/user/register`
+- **Method:** `POST`
+- **Example Request:**
+  ```json
+  {
+    "username": "uur67",
+    "password": "1994ugur",
+    "email": "hmzugur.52@gmail.com",
+    "age": 30
+  }
+
+#### Login
+- **Endpoint:** `/user/login`
+- **Method:** `POST`
+- **Example Request:**
+  ```json
+  {
+   "email":"hmzugur6767", // OR e-email
+   "password" :"1994ugur"
+
+  }
+
+## Address
+
+#### Create
+- **Endpoint:** `/user/create-address`
+- **Method:** `POST`
+- **Example Request:**
+```json
+{
+ "city": "Ankara7",
+ "district": "Cankaya",
+ "street": "Example Street",
+ "location": "Example Location",
+ "isDefault": true, // isDefault= true -> user current adress
+ "coordinates": {
+   "type": "Point",
+   "coordinates": [40.8597, 40.9334]
+   }
+}
+```
+
+## Restaurant
+
+#### Create
+- **Endpoint:** `/restaurant/create`
+- **Method:** `POST`
+- **Example Request:**
+```json
+{
+ "name": "Kebap7",
+ "description": "En 5 kebap dönerleri bulabileceğiniz bir mekan",
+ "logo": "doner_logo.png",
+ "address": "65b4058ef9c6a4317843dbc6",
+ "menus": [
+   "65b4057ef9c6a4317843dbb6",
+   "65b4057ef9c6a4317843dbb9"
+ ],
+ "types": ["Fast Food", "Türk Mutfağı"],
+ "branches": ["65b4057ef9c6a4317843dbb6", "65b4057ef9c6a4317843dbb9"]
+}
+
+```
+
+#### GET 5 nearest Restaurant
+- **Endpoint:** `/restaurant/get-restaurant?searchQ=lahmacun`
+- **Method:** `GET`
+
+## ORDER
+
+#### Create
+- **Endpoint:** `/order/create-order`
+- **Method:** `POST`
+- **Example Request:**
+```json
+{
+ "restaurantId": "65b4118e233d9b20029405f4",
+ "items": [
+   { "menu": "65b41643519f2898967ee083", "quantity": 1 },
+   { "menu": "65b416a3519f2898967ee08c", "quantity": 2 }
+ ],
+ "addressIds": ["65b40546f9c6a4317843dbb3","65b40553f9c6a4317843dbb8","65b40599f9c6a4317843dbc9"],
+ "comment": "Deliver to the door",
+ "rating": 2
+}
+
+```
+
+## MENU
+
+#### Create
+- **Endpoint:** `/restaurant/create-menu`
+- **Method:** `POST`
+- **Example Request:**
+```json
+{
+   "name": "Tavuklu Wrap",
+   "price": 12.99,
+   "description": "Tavuklu wrap içeren nefis bir menü",
+   "image": "tavuklu_wrap_image.jpg"
+ }
+```
+
+
 ## Environment Variables
 - `DB_URL`
 - `JWT_SECRET_KEY`
